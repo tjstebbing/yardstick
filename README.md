@@ -8,9 +8,10 @@ tools you're already familiar with.
 
 
 ```bash
-yard module 'http'
+yard module 'http' 'json' 
 
 testGithubWorks() {
+
   # gets my info from github
   yard get https://api.github.com/users/pomke
 
@@ -18,18 +19,24 @@ testGithubWorks() {
   assertEquals 'Check that the status is OK' "$STATUS_CODE" 200
   assertEquals 'Location check, am I in AU?'  $(yard j "$BODY" '.location') 'Australia'
   assertEquals 'Check my Github name' $(yard j "$BODY" '.login') 'pomke'
+
 }
 ```
 
-## Installation 
-
-### OSX
+Run it! 
 
 ```bash
-brew install iflix/yardstick
+> yardstick test_github.sh
+
+[test] testGithubWorks
+
+Ran 1 tests.
+
+OK
 ```
 
-### Linux
+
+## Installation 
 
 ```bash
 git clone git@github.com:iflix/yardstick.git
