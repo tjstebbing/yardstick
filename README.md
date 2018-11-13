@@ -55,10 +55,8 @@ git clone git@github.com:iflix/yardstick.git
 
 ## Writing tests
 
-## Setup & Teardown functions
-
-## Environment configuration
-
-## Loading yard modules
+#### Setup & Teardown functions
+#### Loading yard modules
+#### Environment configuration
 
 ## Writing yard modules
