@@ -1,5 +1,5 @@
-[Yardstick Logo](https://raw.githubusercontent.com/iflix/yardstick/master/ysh/yardstick.png)
 ![Yardstick Logo](/ysh/yardstick.png?raw=true)
+
 ##  Stack-agnostic integration testing
 
 Yardstick doesn't care what you've written your services in, if you can
