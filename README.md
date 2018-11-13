@@ -6,6 +6,8 @@ Yardstick doesn't care what you've written your services in, if you can
 write a bash script you can test it with Yardstick and the same commandline
 tools you're already familiar with. 
 
+Yardstick embeds and extends the [awesome SHUNIT2 project](https://github.com/kward/shunit2).
+
 
 ```bash
 yard module 'http' 'json' 
@@ -43,7 +45,18 @@ git clone git@github.com:iflix/yardstick.git
 ./ysh/install.sh
 ```
 
-## Requirements
+##### Requirements
 
-OSX: brew
-Linux: snap
+* OSX: _brew_
+* Linux: _snap_
+
+
+## Writing tests
+
+## Setup & Teardown functions
+
+## Environment configuration
+
+## Loading yard modules
+
+## Writing yard modules
