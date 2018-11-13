@@ -9,6 +9,8 @@ tools you're already familiar with.
 Yardstick embeds and extends the [awesome SHUNIT2 project](https://github.com/kward/shunit2).
 
 
+## TL;DR
+
 ```bash
 yard module 'http' 'json' 
 
