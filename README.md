@@ -43,3 +43,7 @@ git clone git@github.com:iflix/yardstick.git
 ./ysh/install.sh
 ```
 
+## Requirements
+
+OSX: brew
+Linux: snap
