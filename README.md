@@ -20,9 +20,9 @@ testGithubWorks() {
   yard get https://api.github.com/users/pomke
 
   # assert some values in the json response are correct
-  assertEquals 'Check that the status is OK' "$STATUS_CODE" 200
-  assertEquals 'Location check, am I in AU?'  $(yard j "$BODY" '.location') 'Australia'
-  assertEquals 'Check my Github name' $(yard j "$BODY" '.login') 'pomke'
+  assert "$STATUS_CODE" equals 200                          'Check that the status is OK'
+  assert $(yard j "$BODY" '.location') equals 'Australia'   'Location check, am I in AU?' 
+  assert $(yard j "$BODY" '.login') equals 'pomke'          'Check my Github name'
 
 }
 ```

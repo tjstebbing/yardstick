@@ -1,15 +1,15 @@
 #!/bin/bash
 
 function usage() {
-	cat <<-EOF
-	USAGE: ${0} [OPTIONS]
+  cat <<-EOF
+  USAGE: ${0} [OPTIONS]
 
-	DESCRIPTION:
+  DESCRIPTION:
 
     This script kicks off all the integration tests. It can be run against local or remote
     services. By default, it will run against local services.
 
-	OPTIONS:
+  OPTIONS:
 
         -h:   Display this documentation
 
@@ -19,11 +19,11 @@ function usage() {
         -t:   Sets whether a tunnel to the staging identity service is
               needed.
 
-	ENVIRONMENTS:
+  ENVIRONMENTS:
 
         stage | staging
 
-	EXAMPLES:
+  EXAMPLES:
 
         # Run against local services by default
         ${0}
@@ -31,49 +31,40 @@ function usage() {
         # Run against staging environment
         ${0} -e staging
 
-	EOF
+EOF
 }
 
-function main() {
-    # source test helpers
-    . ysh/helpers.sh
-
-    # Run tests starting with test_
-    RunTests 
-}
-
-SHUNIT_TEST_PREFIX="[TEST] "
+SHUNIT_TEST_PREFIX="[Test] "
 
 while getopts ":thve:" opt; do
   case $opt in
     e)
-        case ${OPTARG} in
-            "staging"|"stage")
-                TUNNEL_REQUIRED=true
-                LOCAL_RUN=false
-                REST_API=${S_REST_API}
-                RPC_API=${S_RPC_API}
-                METRICS_API=${S_METRICS_API}
-		AUTHSERVICE=${S_AUTHSERVICE}
-                ;;
-            *)
-                usage
-                ;;
-        esac
-        ;;
+      case ${OPTARG} in
+        "staging"|"stage")
+          TUNNEL_REQUIRED=true
+          LOCAL_RUN=false
+          REST_API=${S_REST_API}
+          RPC_API=${S_RPC_API}
+          METRICS_API=${S_METRICS_API}
+          AUTHSERVICE=${S_AUTHSERVICE}
+          ;;
+        *)
+          usage
+          ;;
+      esac
+      ;;
     h)
-        usage
-        exit 0
-        ;;
+      usage
+      exit 0
+      ;;
     t)
-	    TUNNEL_REQUIRED=true
-        ;;
+      TUNNEL_REQUIRED=true
+      ;;
     v)
-        VERBOSE=true
-        ;;
+      VERBOSE=true
+      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
-      exit 1
       ;;
   esac
 done
@@ -82,5 +73,10 @@ done
 ###
 # Main
 ###
+  . ysh/core.sh
 
-main "${@}"
+  echo "tests to run $@"
+  for f in "$@"
+  do
+    ./ysh/run.sh "$f"
+  done
