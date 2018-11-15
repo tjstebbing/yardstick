@@ -1,3 +1,5 @@
+export mod_core=true
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 info()  { $VERBOSE && echo "[INFO ${FUNCNAME[1]}] ${@}"; }
@@ -24,7 +26,7 @@ __isfunc() {
 }
 
 yard() {
-	local cmd args
+	local cmd args mvar
 	cmd=$1
 	args=("$@")
 
@@ -33,6 +35,12 @@ yard() {
 			# module loading, usage: yard module module1, module2
 			for mod in "${args[@]:1}"
 			do
+				mvar="mod_$mod"
+				if [ -z ${!mvar} ]; then
+					:
+				else
+					continue
+				fi
 				if [[ -r "$DIR/mod_$mod.sh" ]]; 
 				then
 					. "$DIR/mod_$mod.sh"
@@ -69,8 +77,15 @@ assert() {
 
 	if [ $# -eq 3 -o $# -eq 4 ] && [ "$2" == 'equals' ]; then
 		__assertEquals "$1" "$3" "$4"	
+		return $?
 	fi
 
+	if [ $# -eq 4 -o $# -eq 5 ] && [ "$2" == 'not' -a "$3" == 'equals' ]; then
+		__assertNotEquals "$1" "$4" "$5"	
+		return $?
+	fi
+
+	__fail "malformed assertion. $# $*"
 }
 
 __assertEquals() {
@@ -83,7 +98,18 @@ __assertEquals() {
 	fi
 	__fail "'$val' is not equal to '$val2'." "$desc" 
 	return 1
+}
 
+__assertNotEquals() {
+	local val val2 desc
+	val=$1
+	val2=$2
+	desc=$3
+	if [ "$val" != "$val2" ]; then
+		return 0
+	fi
+	__fail "'$val' is equal to '$val2'." "$desc" 
+	return 1
 }
 
 __assertTrue() {
@@ -102,8 +128,15 @@ __contains() {
 }
 
 __fail() {
+	local fDepth sDepth f l
+	fDepth=${#BASH_SOURCE[*]}
+	sDepth=${#BASH_LINENO[*]}
+	fDepth=$(( fDepth - 3 ))
+	sDepth=$(( sDepth - 4 ))
+	f=${BASH_SOURCE[fDepth]}
+	l=${BASH_LINENO[sDepth]}
 	__test_status=1
-	__test_message="$__test_message\n[${BASH_SOURCE[-3]}:${BASH_LINENO[2]}]: $1"
+	__test_message="$__test_message\n[$f:$l]: $1"
 	if [[ "$2" ]]; then
 		__test_message="$__test_message ($2)"
 	fi

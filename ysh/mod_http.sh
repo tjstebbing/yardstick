@@ -1,5 +1,7 @@
+export mod_http=true
 
 __depends 'httpie'
+__depends 'jq'
 
 # Aliases
 case "$OSTYPE" in
