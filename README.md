@@ -6,9 +6,6 @@ Yardstick doesn't care what you've written your services in, if you can
 write a bash script you can test it with Yardstick and the same commandline
 tools you're already familiar with. 
 
-Yardstick embeds and extends the [awesome SHUNIT2 project](https://github.com/kward/shunit2).
-
-
 ## TL;DR
 
 ```bash
