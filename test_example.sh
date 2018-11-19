@@ -20,4 +20,11 @@ testStuffWorks() {
   assert "$(yard j "$BODY" '.login')" equals 'pomke'         'Check my Github name is pomke'
   assert "$(yard j "$BODY" '.login')" not equals 'tjs'       'Check my github name is nt somethibng'
 
+  assert '' null
+  assert '' null                                             'Check that empty string is null'
+  assert 123 null                                            'this should break'
+  assert 123 not null
+  assert 123 not null                                        'this should be fine'
+  assert '' not null                                         'this should break'
+
 }
