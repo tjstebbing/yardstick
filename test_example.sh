@@ -7,8 +7,8 @@ testStuffWorks() {
   # gets my info from github
   yard get https://api.github.com/users/pomke
 
-  assert $(yard test '[ 1 -lt 2 ]')                          'Check 1 lt 2'
   # lets assert some stuff
+  assert "[ 1 -gt 2 ]"                                       'Check 1 lt 2'
   assert true                                                'Check the world is right way up'
 
   assert 123 equals 123                                      'Check that number comparison works'

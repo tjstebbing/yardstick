@@ -59,11 +59,6 @@ yard() {
   esac
 }
 
-yard_test() {
-  $1
-  echo $?
-}
-
 assert() {
 
   if [[ $#  == 0 ]]; then
@@ -155,6 +150,8 @@ __assertTrue() {
   val=$1
   desc=$2
   if [ "$val" == true -o "$val" == 0 ]; then
+    return 0
+  elif ( eval "$1" ) >/dev/null 2>&1; then
     return 0
   fi
   __fail "'$val' is not true." "$desc" 
