@@ -181,13 +181,15 @@ __fail() {
 }
 
 main() {
-  local run failed start stop duration
+  local run failed start stop duration funcRegex
   declare -a processed
   run=0
   failed=0
   for file in "$@"; do
     source "$file"
-    for t in $(declare -F | grep 'declare -f test' | awk '{print $3}'); do
+    # regex from shunit2, tyvm
+    funcRegex='^\s*((function test[A-Za-z0-9_-]*)|(test[A-Za-z0-9_-]* *\(\)))'
+    for t in $(grep -E "${funcRegex}" "${file}" | sed 's/^[^A-Za-z0-9_-]*//;s/^function //;s/\([A-Za-z0-9_-]*\).*/\1/g' | xargs); do
       if ! __contains "$t" "${processed[@]}"; then
         unset __test_status __test_message 
         echo "=== RUN $t"
