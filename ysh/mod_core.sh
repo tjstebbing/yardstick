@@ -54,12 +54,15 @@ yard() {
       if [[ $(__isfunc "yard_$cmd") == true ]]; then
         "yard_$cmd" "${args[@]:1}"
       else
-        fail "yard: sub-command not found '$cmd'"
-        exit 1
+        __die "yard: sub-command not found '$cmd'"
       fi
   esac
 }
 
+yard_test() {
+  $1
+  echo $?
+}
 
 assert() {
 
@@ -67,8 +70,6 @@ assert() {
     # nothing to test, exit
     return 0
   fi
-
-
 
   # assert equal
   if [ $# -eq 3 -o $# -eq 4 ] && [ "$2" == 'equals' ]; then
@@ -153,7 +154,7 @@ __assertTrue() {
   local val desc
   val=$1
   desc=$2
-  if [ "$val" == true ]; then
+  if [ "$val" == true -o "$val" == 0 ]; then
     return 0
   fi
   __fail "'$val' is not true." "$desc" 
