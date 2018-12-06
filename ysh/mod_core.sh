@@ -44,6 +44,9 @@ yard() {
         if [[ -r "$DIR/mod_$mod.sh" ]]; 
         then
           . "$DIR/mod_$mod.sh"
+        elif [[ -r "./mod_$mod.sh" ]];
+        then
+          . "./mod_$mod.sh"
         else
           err "Cannot load module $mod"
           exit 1
@@ -114,7 +117,7 @@ __assertNotNull() {
   local val desc
   val=$1
   desc=$2
-  if [ -z "$val" ]; then
+  if [ -z "$val" ]  || [ "$val" == 'null' ]; then
     __fail "'$val' is null." "$desc" 
     return 1
   fi

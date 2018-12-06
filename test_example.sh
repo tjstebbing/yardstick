@@ -1,6 +1,7 @@
 
 
 yard module 'http' 'json' 
+yard module 'test'
 
 testStuffWorks() {
 
